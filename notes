@@ -3,3 +3,19 @@ c'est possible de lier les deux API ;
 il y a des microservices 只有一个或者二个。											
 											
 aides extérieurs : Julien-relier le front et le back ; Camille pour vérifier le code ; Nicolas pour comprendre des questions ; les autres pour voir des questions ; 											
+
+
+		
+		
+THEME 	cuisine	recettes
+		plates
+		locations
+		ingredients
+		livraison
+		prix
+		restaurants
+		concours : un groupe de 6 personnes : chacun désigne une recette pour que les 5 autres fassent cette recette et评价. 
+		
+		
+		
+BUT	confinement, on a envie de faire la cuisine soi même, dans le but de trouver les ingrédients plus facile et rapide : dans quels magasins et livraison ou non ?	
