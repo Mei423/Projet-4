@@ -1,0 +1,80 @@
+用python爬虫代码。 
+
+ 1import requests
+ 2import pandas as pd
+ 3from bs4 import BeautifulSoup
+ 4from lxml import etree
+ 5import time
+ 6import pymysql
+ 7from sqlalchemy import create_engine
+ 8from urllib.parse import urlencode  # 编码 URL 字符串
+ 9
+10start_time = time.time()  #计算程序运行时间
+11def get_one_page(i):
+12    try:
+13        headers = {
+14            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'
+15        }
+16        paras = {
+17        'reportTime': '2017-12-31',
+18        #可以改报告日期，比如2018-6-30获得的就是该季度的信息
+19        'pageNum': i   #页码
+20        }
+21        url = 'http://s.askci.com/stock/a/?' + urlencode(paras)
+22        response = requests.get(url,headers = headers)
+23        if response.status_code == 200:
+24            return response.text
+25        return None
+26    except RequestException:
+27        print('爬取失败')
+28
+29def parse_one_page(html):
+30    soup = BeautifulSoup(html,'lxml')
+31    content = soup.select('#myTable04')[0] #[0]将返回的list改为bs4类型
+32    tbl = pd.read_html(content.prettify(),header = 0)[0]
+33    # prettify()优化代码,[0]从pd.read_html返回的list中提取出DataFrame
+34    tbl.rename(columns = {'序号':'serial_number', '股票代码':'stock_code', '股票简称':'stock_abbre', '公司名称':'company_name', '省份':'province', '城市':'city', '主营业务收入(201712)':'main_bussiness_income', '净利润(201712)':'net_profit', '员工人数':'employees', '上市日期':'listing_date', '招股书':'zhaogushu', '公司财报':'financial_report', '行业分类':'industry_classification', '产品类型':'industry_type', '主营业务':'main_business'},inplace = True)
+35    return tbl
+36
+37def generate_mysql():
+38    conn = pymysql.connect(
+39        host='localhost',
+40        user='root',
+41        password='******',
+42        port=3306,
+43        charset = 'utf8',  
+44        db = 'wade')
+45    cursor = conn.cursor()
+46
+47    sql = 'CREATE TABLE IF NOT EXISTS listed_company (serial_number INT(20) NOT NULL,stock_code INT(20) ,stock_abbre VARCHAR(20) ,company_name VARCHAR(20) ,province VARCHAR(20) ,city VARCHAR(20) ,main_bussiness_income VARCHAR(20) ,net_profit VARCHAR(20) ,employees INT(20) ,listing_date DATETIME(0) ,zhaogushu VARCHAR(20) ,financial_report VARCHAR(20) , industry_classification VARCHAR(20) ,industry_type VARCHAR(100) ,main_business VARCHAR(200) ,PRIMARY KEY (serial_number))'
+48    cursor.execute(sql)
+49    conn.close()
+50
+51def write_to_sql(tbl, db = 'wade'):
+52    engine = create_engine('mysql+pymysql://root:******@localhost:3306/{0}?charset=utf8'.format(db))
+53    try:
+54        tbl.to_sql('listed_company2',con = engine,if_exists='append',index=False)
+55        # append表示在原有表基础上增加，但该表要有表头
+56    except Exception as e:
+57        print(e)
+58
+59def main(page):
+60    generate_mysql()
+61    for i in range(1,page):  
+62        html = get_one_page(i)
+63        tbl = parse_one_page(html)
+64        write_to_sql(tbl)
+65
+66# # 单进程
+67if __name__ == '__main__':    
+68    main(178)
+69    endtime = time.time()-start_time
+70    print('程序运行了%.2f秒' %endtime)
+71
+72# 多进程
+73from multiprocessing import Pool
+74if __name__ == '__main__':
+75     pool = Pool(4)
+76     pool.map(main, [i for i in range(1,178)])  #共有178页
+77    endtime = time.time()-start_time
+78    print('程序运行了%.2f秒' %(time.time()-start_time))
