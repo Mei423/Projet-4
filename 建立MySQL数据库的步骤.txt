@@ -1,0 +1,24 @@
+建立MySQL数据库的步骤：　
+
+open xampp
+start CMD
+
+cd C:\xampp\mysql\bin
+
+mysql --host=localhost --port=3306 --user=root --password
+
+create database mydatabase;
+
+show databases;
+
+create user 'gpdc_marie'@'localhost' identified by 'motdepasse';
+
+SELECT user, host FROM mysql.user;
+
+grant all on previt_db.* to 'gpdc_marie'@'localhost';
+
+show grants for "gpdc_marie"@"localhost";
+
+
+grant all on bonapp.* to 'mei'@'localhost';
+show grants for "mei"@"localhost";

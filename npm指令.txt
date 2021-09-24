@@ -1,0 +1,28 @@
+npm init :  créer le package.json;
+npm install -g grunt
+
+npm install -g typescript
+
+npm install -g nodemon
+
+npm install -g lite-server
+npm install --save-dev grunt
+
+npm install --save mongoose@4.10
+
+npm install --save mongodb@2.0.55
+
+npm install --save-dev @types/node: 安装什么？
+
+我做ｂｏｎａｐｐ要用的命令行：
+npm install -g typescript
+npm install -g @angular/cli
+ng new bon-app
+y
+cd bon-app
+ng serve -o : démarrer l'appli
+
+ng g component header
+ng g component footer
+ng g component basic
+ng g component user

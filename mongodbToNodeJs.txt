@@ -1,17 +1,5 @@
 
-npm init :  créer le package.json;
-npm install -g grunt
 
-npm install -g typescript
-
-npm install -g nodemon
-
-npm install -g lite-server
-npm install --save-dev grunt
-
-npm install --save mongoose@4.10
-
-npm install --save mongodb@2.0.55
 
 les commandes npm install --save express et npm install --save mongoose 
 permettent de télécharger les "packages" Express et Mongoose 
@@ -69,3 +57,7 @@ app.delete('/parkings/:id', (req,res) => {
 app.listen(8080, () => {
     console.log("Serveur à l'écoute")
 })
+
+Avant de relancer mon serveur, je vais me connecter au Shell Mongo et évaluer les connexions actives au serveur MongoDB.
+输入这行代码：　db.serverStatus().connections　　会有一下结果：
+{"current":1, "available": 3275, "tatalCreated":2185, "active":1}

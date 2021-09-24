@@ -1,0 +1,48 @@
+
+Créer un dépôt GitHub
+Icône + et nommer le nouveau dépôt, par exemple, msal04.
+
+https://github.com/stagiaire/msal04
+
+Cloner le repository distant
+Lorsque le dépôt distant est créé, il faut le cloner pour avoir un dépôt local :
+
+Aller dans le répertoire C:\Users\stagiaire\MS\proj-clairprev-microservices
+Utiliser la commande git clone https://github.com/stagiaire/msal04.git
+On a bien le repo local C:\Users\stagiaire\MS\proj-clairprev-microservices\msal04 avec le répertoire .git.
+
+Créer le fichier de configuration microservice-assure.properties
+Vérifier que le fichier de configuration application.properties de "microservices_assure" contient bien spring.application.name=microservice-assure (sinon l'ajouter)
+Copier le fichier de configuration application.properties de "microservices_assure"
+Coller ce fichier dans le repository local
+Renommer le fichier avec le même nom que le micro-service
+Ainsi, dans C:\Users\stagiaire\MS\proj-clairprev-microservices\msal04, on doit avoir le fichier de configuration microservice-assure.properties.
+
+Commit et push 
+
+Commit et push de microservice-assure.properties
+Avant d'envoyer le fichier de configuration dans le repository distant, nous pouvons, eventuellement, faire un fichier .gitignore avec :
+.metadata
+.sonarlint
+**/*.jar
+**/*.war
+**/*.ear
+**/*.class
+Puis aller dans le repository local avant de pouvoir passer les commandes Git :
+Cd \Users\stagiaire\MS\proj-clairprev-microservices\msal04
+
+S'il y a eu des modifications dans le repository distant, il faut les récupérer avant de faire un push :
+
+git pull https://github.com/stagiaire/msal04.git
+
+git add .
+
+git commit -m "urbanisation-si.clairprev.limiteNombreAssure=2"
+
+git push -u origin master
+
+Éventuellement :
+
+git remote add origin https://github.com/stagiaire/msal04.git
+
+git push -u origin master
