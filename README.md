@@ -1,3 +1,5 @@
 # Projet-4
-projet de fin d'AL
-security部分搞定，但是不知道怎么加入ｐｏｓｔｍａｎ
+security in spring, JWT authentication;
+front-end with angular
+back-end in NodeJS
+
